@@ -1,6 +1,6 @@
-HarborBiometrics
-================
-HarborBiometrics is a Dockerized implementation of OpenBR, a communal biometrics framework.
+DockerOpenBR
+============
+Dockerized implementation of OpenBR, a communal biometrics framework.
 
 Usage
 -----
