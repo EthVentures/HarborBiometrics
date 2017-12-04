@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y python-dev \
     libsmi2-dev libffi-dev cmake pkg-config libtiff-dev \
     unzip libtbb-dev libjasper-dev libtbb2 libpng-dev \
     libjpeg-dev libswscale-dev qt5-default libqt5svg5-dev \
-    qtcreator wget
+    qtcreator wget curl
 
 RUN cd \
   && wget https://github.com/opencv/opencv/archive/2.4.11.zip \
@@ -34,3 +34,6 @@ RUN cd \
 
 RUN mkdir /sample
 ADD ./sample /sample
+
+RUN mkdir /controllers
+ADD ./controllers /controllers
