@@ -1,6 +1,6 @@
 HarborBiometrics
 ================
-HarborBiometrics leverages open source biometric recognition (OpenBR) to conduct 1:1 face match verification for EthVentures' Harbor project. It's built on top of the [DockerOpenBR](https://github.com/EthVentures/DockerOpenBR), and implements a simple Flask application to handle face verification requests.
+HarborBiometrics leverages open source biometric recognition (OpenBR) to conduct 1:1 face match verification, and age and gender estimation, for EthVentures' Harbor project. It's built on top of the [DockerOpenBR](https://github.com/EthVentures/DockerOpenBR), and implements a simple Flask application to handle verification and estimation requests.
 
 ## Build Image
 Add your own name and tag:
