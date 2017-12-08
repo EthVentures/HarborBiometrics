@@ -9,7 +9,7 @@ app = Flask(__name__)
 def homepage():
     return 'Flask API running.'
 
-@app.route("/api/v1.0/estimate/age",methods=["POST"])
+@app.route("/api/v1.0/estimation/age",methods=["POST"])
 def age_estimation():
     ## Age estimation
     json_request = request.get_json()
@@ -35,7 +35,7 @@ def age_estimation():
     else:
         return jsonify({'error':{'message':'Request must contain a query'},'status':400,'request':request.url})
 
-@app.route("/api/v1.0/estimate/gender",methods=["POST"])
+@app.route("/api/v1.0/estimation/gender",methods=["POST"])
 def gender_estimation():
     ## Age estimation
     json_request = request.get_json()
