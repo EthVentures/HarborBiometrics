@@ -42,6 +42,30 @@ except Exception as e:
     ## Print exceptions
     print e
 ```
+## Perform Age/Gender Estimation
+To perform gender estimation, just change the endpoint from "age" to "gender":
+```
+## Import modules
+from base64 import b64encode
+from json import loads,dumps
+from urllib2 import Request, urlopen
+
+## Query API (wrap in try-catch)
+try:
+    query = open('bush1.jpeg').read()
+
+    data = {'query':b64encode(query)}
+
+    req = Request('http://localhost:5000/api/v1.0/estimation/age')
+    req.add_header('Content-Type', 'application/json')
+
+    resp = urlopen(req, dumps(data))
+
+    content = resp.read()
+    print content
+except Exception as e:
+    print e
+```    
 
 Team
 ----
