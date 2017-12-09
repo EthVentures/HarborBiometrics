@@ -37,7 +37,7 @@ def age_estimation():
 
 @app.route("/api/v1.0/estimation/gender",methods=["POST"])
 def gender_estimation():
-    ## Age estimation
+    ## Gender estimation
     json_request = request.get_json()
     if 'query' in json_request.keys():
         # initialize
