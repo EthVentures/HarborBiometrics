@@ -12,7 +12,7 @@ Set ```--restart on-failure``` so container recovers from fatal errors in OpenBR
 ```
 docker run -d -p 5000:5000 --restart on-failure [IMAGE_ID]
 ```
-## Perform 1:1 Face Match Verification
+## 1:1 Face Match Verification
 ```
 ## Import modules
 from base64 import b64encode
@@ -42,7 +42,7 @@ except Exception as e:
     ## Print exceptions
     print e
 ```
-## Perform Age/Gender Estimation
+## Age/Gender Estimation
 To perform gender estimation, just change the endpoint from "age" to "gender":
 ```
 ## Import modules
