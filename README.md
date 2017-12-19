@@ -58,7 +58,7 @@ try:
 
     data = {'query':b64encode(query)}
 
-    req = Request('http://localhost:5000/api/v1.0/search')
+    req = Request('http://localhost:5000/api/v1.0/identification')
     req.add_header('Content-Type', 'application/json')
 
     resp = urlopen(req, dumps(data))
