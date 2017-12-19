@@ -12,13 +12,16 @@ Set ```--restart on-failure``` so container recovers from fatal errors in OpenBR
 ```
 docker run -d -p 5000:5000 --restart on-failure [IMAGE_ID]
 ```
-## 1:1 Face Match Verification
+
+## Import Modules (Python Example)
 ```
-## Import modules
 from base64 import b64encode
 from json import loads,dumps
 from urllib2 import Request, urlopen
+```
 
+## 1:1 Face Match Verification
+```
 ## Query API (wrap in try-catch)
 try:
     ## Grab a couple images
@@ -45,11 +48,6 @@ except Exception as e:
 
 ## 1:N Face Match Identification
 ```
-## Import modules
-from base64 import b64encode
-from json import loads,dumps
-from urllib2 import Request, urlopen
-
 ## Query API (wrap in try-catch)
 try:
     ## Grab an image of Bush from
@@ -72,11 +70,6 @@ except Exception as e:
 ## Age/Gender Estimation
 To perform gender estimation, just change the endpoint from "age" to "gender":
 ```
-## Import modules
-from base64 import b64encode
-from json import loads,dumps
-from urllib2 import Request, urlopen
-
 ## Query API (wrap in try-catch)
 try:
     query = open('bush1.jpeg').read()
