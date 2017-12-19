@@ -21,6 +21,7 @@ from urllib2 import Request, urlopen
 ```
 
 ## 1:1 Face Match Verification
+Compare two images. Requires a query and target:
 ```
 ## Query API (wrap in try-catch)
 try:
@@ -47,6 +48,7 @@ except Exception as e:
 ```
 
 ## 1:N Face Match Identification
+Find top 5 images that best match a query:
 ```
 ## Query API (wrap in try-catch)
 try:
@@ -68,7 +70,7 @@ except Exception as e:
 ```
 
 ## Age/Gender Estimation
-To perform gender estimation, just change the endpoint from "age" to "gender":
+To perform gender estimation, just change the endpoint to "gender":
 ```
 ## Query API (wrap in try-catch)
 try:
