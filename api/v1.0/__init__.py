@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from brpy import init_brpy
 from io import BytesIO
 from base64 import b64decode
 from os import walk
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/",methods=["GET"])
 def homepage():
