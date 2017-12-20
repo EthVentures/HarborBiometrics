@@ -12,6 +12,24 @@ CORS(app)
 def homepage():
     return 'Flask API running.'
 
+
+@app.route("/api/v1.0/image/save",methods=["POST"])
+def save_image():
+    ## Save captured image
+    json_request = request.get_json()
+    if 'image' in json_request.keys():
+        # decode image
+        image = BytesIO(b64decode(json_request.get('image'))).read()
+        # grab filename
+        name = json_request['filename']
+        path = '/images/'
+        # write image to disk
+        with open(path + name,'wb') as fl:
+            fl.write(image)
+        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'filename':name,'saved':1}]})
+    else:
+        return jsonify({'error':{'message':'Request must contain an image'},'status':400,'request':request.url})
+
 @app.route("/api/v1.0/estimation/age",methods=["POST"])
 def age_estimation():
     ## Age estimation
@@ -116,7 +134,7 @@ def identification():
         query = br.br_enroll_template(imagetmpl1)
         # get filenames
         files = [x[2] for x in walk('/images')]
-        # search 
+        # search
         scores = []
         for filename in files[0]:
             # get target
@@ -147,4 +165,4 @@ def identification():
         return jsonify({'error':{'message':'Request must contain a query'},'status':400,'request':request.url})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=5000)
+    app.run(host="0.0.0.0",port=5000,debug=True)
