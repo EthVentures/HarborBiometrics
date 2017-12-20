@@ -20,6 +20,31 @@ from json import loads,dumps
 from urllib2 import Request, urlopen
 ```
 
+## Send Image to Server
+Capture a photo and send it to server:
+```
+## Save Image (wrap in try-catch)
+try:
+  ## retrieve image from device
+  query = open('image.jpeg').read()
+
+  ## base64 encode image
+  ## include image filename
+  data = {'image':b64encode(query),'filename':'mynewimage.jpeg'}
+
+  ## Set request
+  req = Request('http://localhost:5000/api/v1.0/image/save')
+  req.add_header('Content-Type', 'application/json')
+
+  ## Post and parse response
+  resp = urlopen(req, dumps(data))
+
+  content = resp.read()
+  print content
+except Exception as e:
+  print e
+```
+
 ## 1:1 Face Match Verification
 Compare two images. Requires a query and target:
 ```
