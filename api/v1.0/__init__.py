@@ -26,15 +26,13 @@ def resize_image():
         wp = (width / float(image.size[0]))
         height = int((float(image.size[1]) * wp))
         image = image.resize((width, height), Image.ANTIALIAS)
-        # grab filename
-        name = json_request['filename']
         # format
-        image_format = name.split('.')[1]
+        image_format = json_request['format']
         # encode
         buffer = BytesIO()
         image.save(buffer,format=image_format)
         result = b64encode(buffer.getvalue())
-        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'format':image_format,'image':result}]})
+        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'image':result}]})
     else:
         return jsonify({'error':{'message':'Request must contain an image'},'status':400,'request':request.url})
 
@@ -190,4 +188,4 @@ def identification():
         return jsonify({'error':{'message':'Request must contain a query'},'status':400,'request':request.url})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=5000,debug=True)
+    app.run(host="0.0.0.0",port=5000)
