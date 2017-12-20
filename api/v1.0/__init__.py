@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from PIL import Image
 from brpy import init_brpy
 from io import BytesIO
-from base64 import b64decode
+from base64 import b64decode, b64encode
 from os import walk
 
 app = Flask(__name__)
@@ -12,6 +13,30 @@ CORS(app)
 def homepage():
     return 'Flask API running.'
 
+
+@app.route("/api/v1.0/image/crop",methods=["POST"])
+def crop_image():
+    ## Crop image
+    json_request = request.get_json()
+    if 'image' in json_request.keys():
+        # decode image
+        image = Image.open(BytesIO(b64decode(json_request.get('image'))))
+        # resize image
+        width = 300
+        wp = (width / float(image.size[0]))
+        height = int((float(image.size[1]) * wp))
+        image = image.resize((width, height), Image.ANTIALIAS)
+        # grab filename
+        name = json_request['filename']
+        # format
+        image_format = name.split('.')[1]
+        # encode
+        buffer = BytesIO()
+        image.save(buffer,format=image_format)
+        result = b64encode(buffer.getvalue())
+        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'format':image_format,'image':result}]})
+    else:
+        return jsonify({'error':{'message':'Request must contain an image'},'status':400,'request':request.url})
 
 @app.route("/api/v1.0/image/save",methods=["POST"])
 def save_image():
@@ -26,7 +51,7 @@ def save_image():
         # write image to disk
         with open(path + name,'wb') as fl:
             fl.write(image)
-        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'filename':name,'saved':1}]})
+        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'filename':name}]})
     else:
         return jsonify({'error':{'message':'Request must contain an image'},'status':400,'request':request.url})
 
