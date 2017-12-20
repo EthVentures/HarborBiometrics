@@ -20,10 +20,35 @@ from json import loads,dumps
 from urllib2 import Request, urlopen
 ```
 
+## Resize Image
+Resize a photo to (300 x proportional h):
+```
+## Resize Image
+try:
+  ## retrieve image from device
+  query = open('image.jpeg').read()
+
+  ## base64 encode image
+  ## include image filename
+  data = {'image':b64encode(query),'format':'jpeg'}
+
+  ## Set request
+  req = Request('http://localhost:5000/api/v1.0/image/resize')
+  req.add_header('Content-Type', 'application/json')
+
+  ## Post and parse response
+  resp = urlopen(req, dumps(data))
+
+  content = resp.read()
+  print content
+except Exception as e:
+  print e
+```
+
 ## Send Image to Server
 Capture a photo and send it to server:
 ```
-## Save Image (wrap in try-catch)
+## Save Image
 try:
   ## retrieve image from device
   query = open('image.jpeg').read()
