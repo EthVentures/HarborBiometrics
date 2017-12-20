@@ -1,6 +1,6 @@
 HarborBiometrics
 ================
-HarborBiometrics leverages open source biometric recognition (OpenBR) to conduct 1:1 face match verification, 1:N face match identification, and age and gender estimation, for EthVentures' Harbor project. It's built on top of the [DockerOpenBR](https://github.com/EthVentures/DockerOpenBR), and implements a simple Flask application to handle verification, identification, and estimation requests.
+HarborBiometrics leverages open source biometric recognition (OpenBR) to conduct 1:1 face match verification, 1:N face match identification, and age and gender estimation for EthVentures' Harbor project. It's built on top of the [DockerOpenBR](https://github.com/EthVentures/DockerOpenBR), and implements a simple Flask application to handle verification, identification, and estimation requests.
 
 ## Build Image
 Add your own name and tag:
@@ -12,13 +12,17 @@ Set ```--restart on-failure``` so container recovers from fatal errors in OpenBR
 ```
 docker run -d -p 5000:5000 --restart on-failure [IMAGE_ID]
 ```
-## 1:1 Face Match Verification
+
+## Import Modules (Python Example)
 ```
-## Import modules
 from base64 import b64encode
 from json import loads,dumps
 from urllib2 import Request, urlopen
+```
 
+## 1:1 Face Match Verification
+Compare two images. Requires a query and target:
+```
 ## Query API (wrap in try-catch)
 try:
     ## Grab a couple images
@@ -44,12 +48,8 @@ except Exception as e:
 ```
 
 ## 1:N Face Match Identification
+Find top 5 images that best match a query:
 ```
-## Import modules
-from base64 import b64encode
-from json import loads,dumps
-from urllib2 import Request, urlopen
-
 ## Query API (wrap in try-catch)
 try:
     ## Grab an image of Bush from
@@ -70,13 +70,8 @@ except Exception as e:
 ```
 
 ## Age/Gender Estimation
-To perform gender estimation, just change the endpoint from "age" to "gender":
+To perform gender estimation, just change the endpoint to "gender":
 ```
-## Import modules
-from base64 import b64encode
-from json import loads,dumps
-from urllib2 import Request, urlopen
-
 ## Query API (wrap in try-catch)
 try:
     query = open('bush1.jpeg').read()
