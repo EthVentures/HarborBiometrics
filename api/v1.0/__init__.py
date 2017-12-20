@@ -116,7 +116,7 @@ def identification():
         query = br.br_enroll_template(imagetmpl1)
         # get filenames
         files = [x[2] for x in walk('/images')]
-        # (in)efficient search
+        # search 
         scores = []
         for filename in files[0]:
             # get target
