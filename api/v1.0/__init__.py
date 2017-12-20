@@ -14,8 +14,8 @@ def homepage():
     return 'Flask API running.'
 
 
-@app.route("/api/v1.0/image/crop",methods=["POST"])
-def crop_image():
+@app.route("/api/v1.0/image/resize",methods=["POST"])
+def resize_image():
     ## Crop image
     json_request = request.get_json()
     if 'image' in json_request.keys():
