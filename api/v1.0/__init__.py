@@ -4,7 +4,7 @@ from PIL import Image
 from brpy import init_brpy
 from io import BytesIO
 from base64 import b64decode, b64encode
-from os import walk
+from os import walk, remove, path
 
 app = Flask(__name__)
 CORS(app)
@@ -26,7 +26,7 @@ def resize_image():
         wp = (width / float(image.size[0]))
         height = int((float(image.size[1]) * wp))
         image = image.resize((width, height), Image.ANTIALIAS)
-        image.rotate(-90)
+        #image.rotate(-90) // unstable orientation in ionic
         # format
         image_format = json_request['format']
         # encode
@@ -46,13 +46,30 @@ def save_image():
         image = BytesIO(b64decode(json_request.get('image'))).read()
         # grab filename
         name = json_request['filename']
-        path = '/images/'
+        fpath = '/images/'
         # write image to disk
-        with open(path + name,'wb') as fl:
+        with open(fpath + name,'wb') as fl:
             fl.write(image)
-        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'filename':name}]})
+        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'filename':name,'success':1}]})
     else:
         return jsonify({'error':{'message':'Request must contain an image'},'status':400,'request':request.url})
+
+@app.route("/api/v1.0/image/delete",methods=["POST"])
+def delete_image():
+    ## Save captured image
+    json_request = request.get_json()
+    if 'filename' in json_request.keys():
+        # grab filename
+        name = json_request['filename']
+        fpath = '/images/'
+        # remove image to disk
+        if path.isfile(fpath+name):
+            remove(fpath+name)
+        else:
+            return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'filename':name,'success':0}]})
+        return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'filename':name,'success':1}]})
+    else:
+        return jsonify({'error':{'message':'Request must contain a filename'},'status':400,'request':request.url})
 
 @app.route("/api/v1.0/estimation/age",methods=["POST"])
 def age_estimation():
