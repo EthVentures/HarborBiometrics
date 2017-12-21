@@ -26,6 +26,7 @@ def resize_image():
         wp = (width / float(image.size[0]))
         height = int((float(image.size[1]) * wp))
         image = image.resize((width, height), Image.ANTIALIAS)
+        image.rotate(-90)
         # format
         image_format = json_request['format']
         # encode
