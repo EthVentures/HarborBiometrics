@@ -45,7 +45,7 @@ except Exception as e:
   print e
 ```
 
-## Send Image to Server
+## Save Image
 Capture a photo and send it to server:
 ```
 ## Save Image
@@ -59,6 +59,27 @@ try:
 
   ## Set request
   req = Request('http://localhost:5000/api/v1.0/image/save')
+  req.add_header('Content-Type', 'application/json')
+
+  ## Post and parse response
+  resp = urlopen(req, dumps(data))
+
+  content = resp.read()
+  print content
+except Exception as e:
+  print e
+```
+
+## Remove Image
+Remove an image from the server:
+```
+## Remove Image
+try:
+  ## set filename
+  data = {'filename':'mynewimage.jpeg'}
+
+  ## Set request
+  req = Request('http://localhost:5000/api/v1.0/image/delete')
   req.add_header('Content-Type', 'application/json')
 
   ## Post and parse response
