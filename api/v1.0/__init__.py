@@ -4,7 +4,7 @@ from PIL import Image
 from brpy import init_brpy
 from io import BytesIO
 from base64 import b64decode, b64encode
-from os import walk, remove, path
+from os import walk, remove, path, listdir
 
 app = Flask(__name__)
 CORS(app)
@@ -13,12 +13,33 @@ CORS(app)
 def homepage():
     return 'Flask API running.'
 
+@app.route("/api/v1.0/image/get",methods=["POST"])
+def get_image():
+    ## Save captured image
+    json_request = request.get_json()
+    if 'filename' in json_request.keys():
+        # grab filename
+        name = json_request['filename']
+        fpath = '/images/'
+        # remove image to disk
+        if path.isfile(fpath+name):
+            # open
+            image = open(fpath+name).read()
+            # encode
+            result = b64encode(image)
+            # result
+            return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'filename':name,'image':result}]})
+        else:
+            return jsonify({'error':{'message':'File does not exist'},'status':400,'request':request.url})
+    else:
+        return jsonify({'error':{'message':'Request must contain a filename'},'status':400,'request':request.url})
 
 @app.route("/api/v1.0/image/resize",methods=["POST"])
 def resize_image():
     ## Crop image
     json_request = request.get_json()
-    if 'image' in json_request.keys():
+    keys = json_request.keys()
+    if 'image' in keys and 'format' in keys:
         # decode image
         image = Image.open(BytesIO(b64decode(json_request.get('image'))))
         # resize image
@@ -35,7 +56,7 @@ def resize_image():
         result = b64encode(buffer.getvalue())
         return jsonify({'mimetype':'application/json','status':200,'request':request.url,'response':[{'image':result}]})
     else:
-        return jsonify({'error':{'message':'Request must contain an image'},'status':400,'request':request.url})
+        return jsonify({'error':{'message':'Request must contain an image and format'},'status':400,'request':request.url})
 
 @app.route("/api/v1.0/image/save",methods=["POST"])
 def save_image():
@@ -206,4 +227,4 @@ def identification():
         return jsonify({'error':{'message':'Request must contain a query'},'status':400,'request':request.url})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port=5000)
+    app.run(host="0.0.0.0",port=5000,debug=True)
