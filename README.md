@@ -70,6 +70,27 @@ except Exception as e:
   print e
 ```
 
+## Get Image
+Retrieve base64 encoded image from server:
+```
+## Retrieve Image
+try:
+  ## Set filename
+  data = {'filename':'bush1.jpeg'}
+
+  ## Set request
+  req = Request('http://localhost:5000/api/v1.0/image/get')
+  req.add_header('Content-Type', 'application/json')
+
+  ## Post and parse response
+  resp = urlopen(req, dumps(data))
+
+  content = resp.read()
+  print content
+except Exception as e:
+  print e
+```
+
 ## Remove Image
 Remove an image from the server:
 ```
